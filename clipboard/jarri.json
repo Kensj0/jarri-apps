@@ -1,0 +1,12 @@
+{
+  "id": "clipboard",
+  "title": "Urklipp",
+  "kind": "native",
+  "backend": {
+    "repo": "https://github.com/Kensj0/zorin-clipboard-pling",
+    "port": 8787,
+    "portEnv": "CLIPBOARD_PORT",
+    "unit": "jarri-clipboard"
+  },
+  "panel": "."
+}

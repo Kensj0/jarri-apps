@@ -12,6 +12,7 @@ Backend för varje app ligger i sitt eget repo och körs utan Jarri. Panelerna p
 | claude-history | github.com/Kensj0/claude-history | 8784 | native |
 | module-store | github.com/Kensj0/module-store | 8785 | native |
 | browser | github.com/Kensj0/claude-in-brave | 8786 | native |
+| clipboard | github.com/Kensj0/zorin-clipboard-pling | 8787 | native |
 | kennystuner | github.com/Kensj0/kennystuner | (webb) | embed |
 
 - **native:** Jarris egen visualisering i React. Beror på Jarri Core (`core/types`, `core/panelSemantics`) och på `@xterm` för terminalen.
