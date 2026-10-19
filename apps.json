@@ -5,7 +5,7 @@
     { "id": "ai-usage", "title": "AI usage", "kind": "native", "backend": { "repo": "https://github.com/Kensj0/ai-usage", "port": 8783, "portEnv": "JARRI_AI_USAGE_PORT", "unit": "jarri-ai-usage" } },
     { "id": "claude-history", "title": "Claude history", "kind": "native", "backend": { "repo": "https://github.com/Kensj0/claude-history", "port": 8784, "portEnv": "JARRI_CLAUDE_HISTORY_PORT", "unit": "jarri-claude-history" } },
     { "id": "module-store", "title": "Module store", "kind": "native", "backend": { "repo": "https://github.com/Kensj0/module-store", "port": 8785, "portEnv": "JARRI_MODULE_STORE_PORT", "unit": "jarri-module-store" } },
-    { "id": "browser", "title": "Browser", "kind": "native", "backend": { "repo": "https://github.com/Kensj0/browser", "port": 8786, "portEnv": "JARRI_BROWSER_PORT", "unit": "jarri-browser" } },
+    { "id": "browser", "title": "Browser", "kind": "native", "backend": { "repo": "https://github.com/Kensj0/claude-in-brave", "port": 8786, "portEnv": "JARRI_BROWSER_PORT", "unit": "jarri-browser" } },
     { "id": "kennystuner", "title": "Kenny's Tuner", "kind": "embed", "ui": "https://kennystuner.netlify.app/", "repo": "https://github.com/Kensj0/kennystuner" }
   ]
 }
