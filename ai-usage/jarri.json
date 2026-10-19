@@ -1,0 +1,12 @@
+{
+  "id": "ai-usage",
+  "title": "AI usage",
+  "kind": "native",
+  "backend": {
+    "repo": "https://github.com/Kensj0/ai-usage",
+    "port": 8783,
+    "portEnv": "JARRI_AI_USAGE_PORT",
+    "unit": "jarri-ai-usage"
+  },
+  "panel": "."
+}

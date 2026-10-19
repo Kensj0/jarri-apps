@@ -1,0 +1,12 @@
+{
+  "id": "module-store",
+  "title": "Module store",
+  "kind": "native",
+  "backend": {
+    "repo": "https://github.com/Kensj0/module-store",
+    "port": 8785,
+    "portEnv": "JARRI_MODULE_STORE_PORT",
+    "unit": "jarri-module-store"
+  },
+  "panel": "."
+}

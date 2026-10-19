@@ -1,0 +1,12 @@
+{
+  "id": "claude-history",
+  "title": "Claude history",
+  "kind": "native",
+  "backend": {
+    "repo": "https://github.com/Kensj0/claude-history",
+    "port": 8784,
+    "portEnv": "JARRI_CLAUDE_HISTORY_PORT",
+    "unit": "jarri-claude-history"
+  },
+  "panel": "."
+}

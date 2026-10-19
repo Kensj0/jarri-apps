@@ -1,0 +1,12 @@
+{
+  "id": "phone",
+  "title": "Phone",
+  "kind": "native",
+  "backend": {
+    "repo": "https://github.com/Kensj0/phone",
+    "port": 8782,
+    "portEnv": "JARRI_PHONE_PORT",
+    "unit": "jarri-phone"
+  },
+  "panel": "."
+}

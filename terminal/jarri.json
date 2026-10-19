@@ -1,0 +1,12 @@
+{
+  "id": "terminal",
+  "title": "Terminal",
+  "kind": "native",
+  "backend": {
+    "repo": "https://github.com/Kensj0/terminal",
+    "port": 8781,
+    "portEnv": "JARRI_TERMINAL_PORT",
+    "unit": "jarri-terminal"
+  },
+  "panel": "."
+}
