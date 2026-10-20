@@ -18,7 +18,7 @@ async function call<T>(method: "GET" | "POST", path: string, body?: unknown): Pr
     method,
     headers: body === undefined ? undefined : { "Content-Type": "application/json" },
     body: body === undefined ? undefined : JSON.stringify(body),
-    signal: AbortSignal.timeout(5000),
+    signal: AbortSignal.timeout(15000),
   });
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error ?? `HTTP ${response.status}`);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   browserApi,
   currentIntent,
@@ -31,7 +31,11 @@ export function BrowserPanel({ openPanel }: { openPanel: PanelBodyProps["openPan
   const [offline, setOffline] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
 
+  // One refresh at a time: a slow answer must not pile up more requests behind it.
+  const refreshing = useRef(false);
   const refresh = useCallback(async () => {
+    if (refreshing.current) return;
+    refreshing.current = true;
     try {
       const [status, events, requests, approvals, permissions] = await Promise.all([
         browserApi.status(),
@@ -42,8 +46,11 @@ export function BrowserPanel({ openPanel }: { openPanel: PanelBodyProps["openPan
       ]);
       setSnapshot({ status, events, requests, approvals, permissions });
       setOffline(false);
-    } catch {
+    } catch (error) {
       setOffline(true);
+      setNotice(error instanceof Error ? `${error.name}: ${error.message}` : String(error));
+    } finally {
+      refreshing.current = false;
     }
   }, []);
 
@@ -80,6 +87,7 @@ export function BrowserPanel({ openPanel }: { openPanel: PanelBodyProps["openPan
         <div className="cb__card cb__card--alert">
           <h3>Claude can't reach its service</h3>
           <p>Type in the terminal: <code>systemctl --user start jarri-browser</code></p>
+          {notice && <p><code>{notice}</code></p>}
           <button className="cb__btn cb__btn--primary" type="button" onClick={() => void refresh()}>
             Try again
           </button>

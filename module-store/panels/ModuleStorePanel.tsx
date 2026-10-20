@@ -15,8 +15,12 @@ type AppEntry = {
   kind: "service" | "web" | "builtin";
   port?: number;
   ui?: string;
+  repo?: string;
   installed?: boolean;
 };
+
+// What the store service sends: the catalog's own kinds, with the port inside "backend".
+type CatalogApp = Omit<AppEntry, "kind"> & { kind: string; backend?: { port: number; repo?: string } };
 
 async function loadApps(): Promise<AppEntry[] | null> {
   try {
@@ -24,12 +28,24 @@ async function loadApps(): Promise<AppEntry[] | null> {
       signal: AbortSignal.timeout(3000),
     });
     if (!response.ok) return null;
-    const body = (await response.json()) as { apps: AppEntry[] };
-    return body.apps;
+    const body = (await response.json()) as { apps: CatalogApp[] };
+    // The catalog names kinds "native" (a backend with Jarri's own panel) and "embed" (a web app
+    // shown in a frame). This panel knows "service" and "web", and reads the port from the backend.
+    return body.apps.map((app): AppEntry => ({
+      ...app,
+      kind: app.kind === "native" ? "service" : app.kind === "embed" ? "web" : (app.kind as AppEntry["kind"]),
+      port: app.port ?? app.backend?.port,
+      repo: app.repo ?? app.backend?.repo,
+    }));
   } catch {
     return null;
   }
 }
+
+// Built-in modules are not in the store catalog, so their repositories are listed here.
+const BUILTIN_REPOS: Record<string, string> = {
+  core: "https://github.com/TorMatzAndren/jarri-workspace-core",
+};
 
 const STORE_PORT = 8785;
 const CHECK_INTERVAL_MS = 15_000;
@@ -42,6 +58,8 @@ type UpdateInfo = {
   latest: string;
   updateAvailable: boolean;
   canUndo: boolean;
+  installedDate?: string | null;
+  latestDate?: string | null;
 };
 
 // A service that answers at all counts as up, even with an error page. The
@@ -359,7 +377,10 @@ export function ModuleStorePanel({ getModules, openPanel }: Props) {
                   </span>
                 )}
                 <strong>{module.moduleId}</strong>
-                <span style={{ opacity: 0.7 }}>version {module.version}</span>
+                <span style={{ opacity: 0.7 }}>
+                  version {module.version}
+                  {info?.installedDate ? ` · uppdaterad ${info.installedDate}` : ""}
+                </span>
                 {info?.updateAvailable ? (
                   <span style={{ fontSize: "0.75em", padding: "1px 6px", borderRadius: 4, color: "#fff", background: "#b7791f" }}>
                     Update
@@ -444,6 +465,14 @@ export function ModuleStorePanel({ getModules, openPanel }: Props) {
                     </div>
                   )}
                   {kind === "builtin" && <div>Built into Jarri. No service to check.</div>}
+                  {(app?.repo ?? BUILTIN_REPOS[module.moduleId]) && (
+                    <div>
+                      Repo:{" "}
+                      <a href={app?.repo ?? BUILTIN_REPOS[module.moduleId]} target="_blank" rel="noreferrer">
+                        {(app?.repo ?? BUILTIN_REPOS[module.moduleId]).replace("https://", "")}
+                      </a>
+                    </div>
+                  )}
                   {app?.ui && openPanel && app.installed !== false && (
                     <div style={{ marginTop: 6 }}>
                       <button

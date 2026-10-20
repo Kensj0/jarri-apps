@@ -20,7 +20,12 @@ export function BrowserViewPanel() {
 
   useEffect(() => {
     let alive = true;
-    const grab = () =>
+    // One picture at a time: a new one starts only when the last one has arrived, so slow pages
+    // cannot pile up requests.
+    let busy = false;
+    const grab = () => {
+      if (busy) return;
+      busy = true;
       browserApi
         .screenshot()
         .then((next) => {
@@ -28,7 +33,11 @@ export function BrowserViewPanel() {
           setFrame(next);
           if (!typingRef.current) setAddress(next.url);
         })
-        .catch(() => alive && setFrame(null));
+        .catch(() => alive && setFrame(null))
+        .finally(() => {
+          busy = false;
+        });
+    };
     void grab();
     const timer = window.setInterval(() => void grab(), FRAME_MS);
     return () => {
