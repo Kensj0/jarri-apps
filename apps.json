@@ -59,7 +59,8 @@
         "unit": "jarri-module-store"
       },
       "autostart": false,
-      "installed": false
+      "installed": true,
+      "updatable": false
     },
     {
       "id": "browser",
@@ -84,7 +85,8 @@
         "unit": "zorin-clipboard-pling"
       },
       "autostart": true,
-      "installed": false
+      "installed": true,
+      "updatable": false
     },
     {
       "id": "kennystuner",
